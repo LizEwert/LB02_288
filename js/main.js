@@ -1,10 +1,11 @@
-//in data die task reinlegen
+//in data die task reinlegen??? was macht das eigentlich
 //ZEIGEN in 2.1 objekt literal 2.2 und 2.3
 const data = {todo: [], doing: [], done: []};
-
-/*div erstellt
-Funktion, die ein Parameter entgegen nimmt
-Funktion erzeugt ein Div mit der Klasse task und dem text aus dem Parameter
+/*
+Hier wird ein div (task) und ein Button (löschknopf) erstellt.
+SIDEINFO: Ich kreire ein div, welches man im html nicht  sieht. Dieses div dient dazu die Tasks, die eine klasse haben (also die weissen boxen) zu manipulieren.
+Es ist eine function, die ein taskelement erstellt mit text drin, und einen Parameter entgegen nimmt.
+SIDEINFO: Der delete button wird als kind an den task(parent) rangehängt. Mit einem Eventlistener wird das kindelement per 'click' aus dem parent(column) vom parent(task) gelöscht.
 */
 function createTaskelement(text) {
   const element = document.createElement('div');
@@ -22,21 +23,19 @@ function createTaskelement(text) {
   });
   return element;
 }
-/*div verwenden
-Das Element mit der Id columntodo im DOM finden
-Im Element ein neues Kind hinzufuegen
-Das, was die Funktion von oben erstellt, wird als Kind in die Columntodo gehaengt
+/*
+Hier wird das div effektiv verwendet
+Das Element mit der Id columntodo wird im DOM gefunden
 */
 const todoColumnelement = document.getElementById('column-todo');
-//todoColumnelement.appendChild(createTaskelement('waschen'));
-/*forschleife benutzen, fuer jedes Item wird aufgefuehrt was in der Klammer ist
-bei jedem Durchgang wird in der Variable item der Wert des Strings beschrieben.
+/*
+Der + button wird mit der function handlebuttonclick angefragt. Hier haben wir eine function in einer function. Der input von dem Balken, wo wir etwas reinschreiben
+wird mit getelementbyid angefragt. davor gibt es noch eine konstante input, die wir später nutzen. Nun weil die inputfelder im html alle gleich anfangen,
+kann ich sie mit input- in einem string und name alle gleichzeitig anfragen.
+Ich schliesse noch ein if an, weil ich nicht möchte dass ein task feld kreirt wird wenn nichts reingeschrieben wurde, also muss die length grösse als 0 sein.
+Das trim ist dafür da, dass nicht nur leerzeichen eingefügt werden können.
+Anschliessend wird in der column, welche ich auch mit getelementbyid anfrage, ein child (taskelement) mit seinem input value, dem wir bedingungen gegeben haben, angefügt.
  */
-/*for(const item of todoColumn.items){
-  todoColumnelement.appendChild(createTaskelement(item));
-}*/
-
-//button holen + Eventlistener (ein Ereignis was immer zu bestimmten zeitpunkten passiert)
 function handleButtonclick(name) {
   return function () {
     const input = document.getElementById('input-' + name);
@@ -48,13 +47,14 @@ function handleButtonclick(name) {
   }
 }
 //ZEIGEN DOM manipulieren 1.1 und 1.2 nd 1.3
+/*
+Mit dem Eventlistener machen wir wieder das selbe wie vorhin. Das spezifische event also 'click' und 'handleclickbutton' passieren gliechzeitig, wenn man clickt passiert das,
+was in handleclick steht. Die buttons aus den 3 spalten werden wieder angefragt damit das event ausgeführt werden kann.
+ */
 document.getElementById('button-todo').addEventListener('click', handleButtonclick('todo'));
 document.getElementById('button-doing').addEventListener('click', handleButtonclick('doing'));
 document.getElementById('button-done').addEventListener('click', handleButtonclick('done'));
-
-//downloaden: JSON.stringify(data,null,2)
-//googeln: javascript download textfile
-
+//downloaden: JSON.stringify(data,null,2) check ich nicht
 function JSONdownload() {
   //Ein JSON array bauen, welches die Tasks drin hat. bei erstem array war: new Array()
   const tasks = [];
@@ -62,15 +62,12 @@ function JSONdownload() {
   tasks.push([1, "waschen"]);
   tasks.push([2, "kochen"]);
   tasks.push([3, "putzen"]);
-
   //JSON array in string konvertieren.
   let json = JSON.stringify(tasks);
-
   /*JSON string in blob konvertieren (blob =
   dateiähnliche Menge unveränderlicher Roh-Daten, die nicht notwendigerweise native JavaScript-Daten enthalten.*/
   json = [json];
   const blob1 = new Blob(json, { type: "text/plain;charset=utf-8" });
-
   //Check the Browser. vor !! war noch: false ||... was heisst isIE?
   const isIE = !!document.documentMode;
   if (isIE) {
