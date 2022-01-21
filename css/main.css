@@ -1,13 +1,14 @@
 :root{
-  --hintergrund-farbe-1: #D3D5FF;
-  --hintergrund-farbe-2: #FFB69F;
+  --hintergrund-farbe-1: #31BFA6;
+  --hintergrund-farbe-2: #411DA8;
+  --hintergrund-farbe-3: #8B8DE4;
 }
 html,body{
   height: 100%;
 }
 body{
   background: var(--hintergrund-farbe-1) linear-gradient(var(--hintergrund-farbe-1), var(--hintergrund-farbe-2));
-  font-family: Roboto, sans-serif;
+  font-family: "Poppins";
   padding: 55px;
 }
 .page-title{
@@ -32,7 +33,7 @@ body{
   font-size: 35px;
 }
 .task{
-  color: #8B8DE4;
+  color: var(--hintergrund-farbe-3);
   background-color: rgba(255,255,255, 0.65);
   border-radius: 7px;
   margin: 10px 0;
@@ -41,7 +42,7 @@ body{
   grid-auto-flow: column;
 }
 .input-feld{
-  color: #8B8DE4;
+  color: var(--hintergrund-farbe-3);
   width: 88%;
   font-size: 16px;
   padding: 15px 10px 8px 10px;
@@ -50,7 +51,7 @@ body{
 }
 .button{
   font-size: 27px;
-  color: #B0B2E9;
+  color: var(--hintergrund-farbe-1);
   background-color: white;
   border-radius: 7px;
   padding: 5px 0;
@@ -60,8 +61,24 @@ body{
 .delete-button{
   border: none;
   font-weight: bold;
-  color: #8B8DE4;
+  color: var(--hintergrund-farbe-3);
   background-color: white;
   justify-self: end;
   border-radius: 3px;
+}
+.download-button{
+  color: var(--hintergrund-farbe-1);
+  font-family: "Poppins";
+  font-weight: bold;
+  background-color: white;
+  font-size: 27px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  margin-top: 70px;
+
+}
+.header{
+  display: grid;
+  grid-auto-flow: column;
 }
