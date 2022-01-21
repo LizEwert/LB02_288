@@ -1,0 +1,67 @@
+:root{
+  --hintergrund-farbe-1: #D3D5FF;
+  --hintergrund-farbe-2: #FFB69F;
+}
+html,body{
+  height: 100%;
+}
+body{
+  background: var(--hintergrund-farbe-1) linear-gradient(var(--hintergrund-farbe-1), var(--hintergrund-farbe-2));
+  font-family: Roboto, sans-serif;
+  padding: 55px;
+}
+.page-title{
+  color: white;
+  font-size: 72px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.container{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+.column{
+  background-color: rgba(255,255,255, 0.3);
+  padding: 5px 20px;
+  border-radius: 10px;
+  height: 700px
+}
+.column-heading{
+  color: white;
+  font-size: 35px;
+}
+.task{
+  color: #8B8DE4;
+  background-color: rgba(255,255,255, 0.65);
+  border-radius: 7px;
+  margin: 10px 0;
+  padding: 10px;
+  display: grid;
+  grid-auto-flow: column;
+}
+.input-feld{
+  color: #8B8DE4;
+  width: 88%;
+  font-size: 16px;
+  padding: 15px 10px 8px 10px;
+  border-radius: 7px;
+  border: none;
+}
+.button{
+  font-size: 27px;
+  color: #B0B2E9;
+  background-color: white;
+  border-radius: 7px;
+  padding: 5px 0px 5px 0px;
+  border: none;
+  width: 8%;
+}
+.delete-button{
+  border: none;
+  font-weight: bold;
+  color: #8B8DE4;
+  background-color: white;
+  justify-self: end;
+  border-radius: 3px;
+}
