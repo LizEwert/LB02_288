@@ -1,5 +1,5 @@
-//in data die task reinlegen??? was macht das eigentlich
-//ZEIGEN in 2.1 objekt literal 2.2 und 2.3
+//data die alles beinhält
+//ZEIGEN in 2.1 objekt literal 2.2 und 2.3 hier wird es angelegt für das programm, noch leer, in zeile 41 gefüllt.
 const data = {todo: [], doing: [], done: []};
 /*
 Hier wird ein div (task) und ein Button (löschknopf) erstellt.
@@ -14,20 +14,19 @@ function createTaskelement(text) {
   element.innerText = text;
   element.appendChild(deleteButton);
   deleteButton.innerText = '\u2715';
-  //ZEIGEN in 2.1 KLasse
   deleteButton.className = "delete-button";
   deleteButton.addEventListener('click', function () {
     const taskElement = this.parentElement;
     const columnElement = taskElement.parentElement;
     columnElement.removeChild(taskElement);
+    //holt den namen von dem was ich loeschen will und die ersten 7 zeichen werden verworfen. neu hinzugefuegte sachen die geloescht wurden tauchen nicht im JSON auf.
+    const columnName = columnElement.id.substring(7);
+    const deleteIndex = data[columnName].indexOf(text);
+    //2.1 da wird das object literal vom anfang geloescht.
+    delete data[columnName][deleteIndex];
   });
   return element;
 }
-/*
-Hier wird das div effektiv verwendet
-Das Element mit der Id columntodo wird im DOM gefunden
-*/
-const todoColumnelement = document.getElementById('column-todo');
 /*
 Der + button wird mit der function handlebuttonclick angefragt. Hier haben wir eine function in einer function. Der input von dem Balken, wo wir etwas reinschreiben
 wird mit getelementbyid angefragt. davor gibt es noch eine konstante input, die wir später nutzen. Nun weil die inputfelder im html alle gleich anfangen,
@@ -36,17 +35,20 @@ Ich schliesse noch ein if an, weil ich nicht möchte dass ein task feld kreirt w
 Das trim ist dafür da, dass nicht nur leerzeichen eingefügt werden können.
 Anschliessend wird in der column, welche ich auch mit getelementbyid anfrage, ein child (taskelement) mit seinem input value, dem wir bedingungen gegeben haben, angefügt.
  */
+//ZEIGEN DOM manipulieren 1.1 und 1.2 nd 1.3 element wird gesucht, element gepullt und mit appendchild wird es manipuliert, funktionsweise (wenn ich auf den button drück)
+// im elements zeigen, am besten etwas hinzufügen dann sieht man es im DOM tree.
 function handleButtonclick(name) {
   return function () {
     const input = document.getElementById('input-' + name);
     if (input.value.trim().length > 0) {
       document.getElementById('column-' + name).appendChild(createTaskelement(input.value));
-      data[name].push(input.value)
+      data[name].push(input.value) // 2.1 hier wird das ins object literal hinzugefügt
+      console.log(data); // 2.2. + 2.3 in der console zeigen, und etwas hinzuf[gen, da is das objekt und der hinzugefuegte task.
       input.value = '';
     }
   }
 }
-//ZEIGEN DOM manipulieren 1.1 und 1.2 nd 1.3
+
 /*
 Mit dem Eventlistener machen wir wieder das selbe wie vorhin. Das spezifische event also 'click' und 'handleclickbutton' passieren gliechzeitig, wenn man clickt passiert das,
 was in handleclick steht. Die buttons aus den 3 spalten werden wieder angefragt damit das event ausgeführt werden kann.
@@ -55,31 +57,28 @@ document.getElementById('button-todo').addEventListener('click', handleButtoncli
 document.getElementById('button-doing').addEventListener('click', handleButtonclick('doing'));
 document.getElementById('button-done').addEventListener('click', handleButtonclick('done'));
 //downloaden: JSON.stringify(data,null,2) check ich nicht
+
 function JSONdownload() {
   //Ein JSON array bauen, welches die Tasks drin hat. bei erstem array war: new Array()
-  const tasks = [];
-  tasks.push(["todo", "doing", "done"]);
-  tasks.push([1, "waschen"]);
-  tasks.push([2, "kochen"]);
-  tasks.push([3, "putzen"]);
-  //JSON array in string konvertieren.
-  let json = JSON.stringify(tasks);
   /*JSON string in blob konvertieren (blob =
   dateiähnliche Menge unveränderlicher Roh-Daten, die nicht notwendigerweise native JavaScript-Daten enthalten.*/
-  json = [json];
-  const blob1 = new Blob(json, { type: "text/plain;charset=utf-8" });
-  //Check the Browser. vor !! war noch: false ||... was heisst isIE?
+  //3.1 weil meine daten als js objekt abgelegt werden, koennen diese eins zu eins im download bereit gestellt werden.
+  //aus meinen data objekt wird ein blob erstellt um es dem nutzer als download ojekt zur verfuegung zu stellen. (stringify ist dazu da, dass es ein JSON wird, null, 2 formatiert es schoener)
+  //3.2 auf den download button druecken damit etwas passiert, console aufmachen fuer keine fehler.
+  const blob1 = new Blob([JSON.stringify(data,null,2)], { type: "text/plain;charset=utf-8" });
+  //Check the Browser. isIE ist speziell für Internet Explorer
   const isIE = !!document.documentMode;
   if (isIE) {
-    window.navigator.msSaveBlob(blob1, "kanban.txt");
+    window.navigator.msSaveBlob(blob1, "kanban.json");
   } else {
     const url = window.URL || window.webkitURL;
     link = url.createObjectURL(blob1);
     const a = document.createElement("a");
-    a.download = "kanban.txt";
+    a.download = "kanban.json";
     a.href = link;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }
 }
+document.getElementById('download-button').addEventListener('click', JSONdownload);
